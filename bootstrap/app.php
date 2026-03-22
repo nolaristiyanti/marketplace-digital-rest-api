@@ -24,15 +24,13 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e->getPrevious() instanceof ModelNotFoundException) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Data tidak ditemukan',
-                    'errors' => null
+                    'message' => 'Data tidak ditemukan'
                 ], 404);
             }
 
             return response()->json([
                 'success' => false,
-                'message' => 'Route Tidak Ditemukan',
-                'errors' => null
+                'message' => 'Route Tidak Ditemukan'
             ], 404);
         });
 
@@ -40,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'success' => false,
                 'message' => 'Validasi Gagal',
-                'errors' => null
+                'errors' => $e->errors()
             ], 422);
         });
     })->create();
