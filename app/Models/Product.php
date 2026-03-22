@@ -60,9 +60,9 @@ class Product extends Model
     public function getRatingClassAttribute(): string
     {
         $ratingClass = "";
-        if ($this->price >= 8.5) {
+        if ($this->rating >= 8.5) {
             $ratingClass = "Top Rated";
-        } else if ($this->price >= 7) {
+        } else if ($this->rating >= 7) {
             $ratingClass = "Popular";
         } else {
             $ratingClass = "Regular";

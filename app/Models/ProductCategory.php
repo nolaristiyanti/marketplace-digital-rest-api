@@ -17,6 +17,11 @@ class ProductCategory extends Model
         'icon',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     // relasi ke products
     public function products()
     {

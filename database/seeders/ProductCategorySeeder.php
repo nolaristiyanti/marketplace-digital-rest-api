@@ -17,13 +17,13 @@ class ProductCategorySeeder extends Seeder
         ProductCategory::create([
             'name' => 'Web Development',
             'description' => 'Programming & coding resources',
-            'icon' => 'code',
+            'icon' => 'code.png',
         ]);
 
         ProductCategory::create([
             'name' => 'UI Kit',
             'description' => 'Design assets',
-            'icon' => 'figma',
+            'icon' => 'figma.png',
         ]);
     }
 }

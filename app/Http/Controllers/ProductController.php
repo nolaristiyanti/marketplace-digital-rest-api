@@ -14,26 +14,8 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        // $products = Product::with(['category:id,name', 'seller:id,name'])
-        //     ->get()
-        //     ->map(fn ($p) => [
-        //         'id' => $p->id,
-        //         'title' => $p->title,
-        //         'description' => $p->description,
-        //         'price' => $p->price,
-        //         'rating' => (float) $p->rating,
-        //         'thumbnail' => $p->thumbnail,
-        //         'file_path' => $p->file_path,
-        //         'download_count' => $p->download_count,
-        //         'status' => $p->status,
-        //         'category' => $p->category,
-        //         'seller' => $p->seller,
-        //     ]);
-
-        // return $this->successResponse($products, 'Data produk berhasil diambil');
-
         //get data dengan filtering & sorting
-        $query = Product::with(['category:id,name', 'seller:id,name']);
+        $query = Product::query();
 
         //filter by name (search)
         if($request->has('search')) {
@@ -67,11 +49,7 @@ class ProductController extends Controller
         $sortBy = $request->get('sort_by', 'download_count');
         $query->orderBy($sortBy, $sortOrder);
 
-        //pagination
-        $perPage = $request->get('per_page', 10);
-        $products = $query->paginate($perPage);
-
-        $mapped = collect($products->items())->map(fn ($p) => [
+        $products = $query->get()->map(fn ($p) => [
             'id' => $p->id,
             'title' => $p->title,
             'description' => $p->description,
@@ -81,23 +59,43 @@ class ProductController extends Controller
             'file_path' => $p->file_path,
             'download_count' => $p->download_count,
             'status' => $p->status,
-            'category' => $p->category,
-            'seller' => $p->seller,
+             'category' => [
+                'id' => $p->category->id,
+                'name' => $p->category->name,
+            ],
+            'seller' => [
+                'id' => $p->seller->id,
+                'name' => $p->seller->name,
+            ],
+            'rating_class' => $p->rating_class,
         ]);
 
-        return $this->successResponse([
-            'data' => $mapped,
-            'meta' => [
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'per_page' => $products->perPage(),
-                'total' => $products->total(),
-            ]
-        ]);
+        return $this->successResponse($products,'Data produk berhasil diambil');
     }
 
     public function show(Product $product): JsonResponse {
-        return $this->successResponse($product, 'Detail produk berhasil diambil');
+        $mappedProduct = [
+            'id' => $product->id,
+            'title' => $product->title,
+            'description' => $product->description,
+            'price' => $product->price,
+            'rating' => (float) $product->rating,
+            'thumbnail' => $product->thumbnail,
+            'file_path' => $product->file_path,
+            'download_count' => $product->download_count,
+            'status' => $product->status,
+            'category' => [
+                'id' => $product->category->id,
+                'name' => $product->category->name,
+            ],
+            'seller' => [
+                'id' => $product->seller->id,
+                'name' => $product->seller->name,
+            ],
+            'rating_class' => $product->rating_class
+        ];
+
+        return $this->successResponse($mappedProduct, 'Detail produk berhasil diambil');
     }
 
     public function store(Request $request): JsonResponse
@@ -181,7 +179,7 @@ class ProductController extends Controller
     {
         // 1. cari data
         $product = Product::findOrFail($id);
-        $productName = $product->name;
+        $productName = $product->title;
 
         // 2. Validasi user
         $user = User::findOrFail(2); // seller A
@@ -191,10 +189,7 @@ class ProductController extends Controller
             return $this->errorResponse('Hanya seller yang boleh delete produk', 403);
         }
 
-        // 3. delete data
-        $product->delete();
-
-        // 2. error handling & return response JSON
+        // 3. error handling, delete data & return response JSON
         try {
             $product->delete();
         } catch (\Exception $e) {

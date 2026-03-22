@@ -54,4 +54,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class, 'seller_id');
     }
+
+    // Relasi ke orders
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
 }
