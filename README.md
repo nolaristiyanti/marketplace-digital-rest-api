@@ -1,58 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+GET /api/products
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/fdcefdb4-df57-4f5d-9228-48b9e99b7ac3" />
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+GET /api/products/{id}
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/9f469b38-5473-45b5-8b29-e5bc65640716" />
 
-## About Laravel
+POST /api/products
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/42b5f687-ee0e-448f-96c7-3ea35b3ffc74" />
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+PUT /api/products
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/c2f41028-ee7f-4d2a-9921-3003f7cd4e94" />
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+DELETE /api/products
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/d597bf53-e66f-4bed-8b70-0997f86345b8" />
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+GET /api/categories
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/e20b3670-8e8a-4e08-a907-1f62169e84c9" />
 
-## Learning Laravel
+GET /api/categories/{id}
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/e1c37002-594c-43af-b2e7-bb622e5b4b2f" />
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+POST /api/categories
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/6e4e9de8-901e-4d6f-9e13-e98ce148d998" />
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+PUT /api/categories/{id}
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/9462d5ef-e762-47ca-8b5b-5f81d316ce37" />
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+DELETE /api/categories/{id}
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/66fd0698-34de-4f47-b35d-5c5bed774922" />
 
-## Agentic Development
+Filter & Search
+GET /api/products?search=ui kit - Cari berdasarkan judul produk
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/e03685ca-7a7f-4da9-91aa-f37dcc135adf" />
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+GET /api/products?category_id=1 - Filter berdasarkan kategori
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/0c6c12e0-e493-41b7-9958-7e117f4186ae" />
 
-```bash
-composer require laravel/boost --dev
+GET /api/products?min_price=10000&max_price=50000 - Filter range harga
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/84f16c70-62ab-4009-abca-63119ef17c75" />
 
-php artisan boost:install
-```
+GET /api/products?sort_by=rating&order=desc - Urutkan by rating
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/ab0a6f97-b291-452a-9e83-175ac2b62dcf" />
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+GET /api/products?sort_by=price&order=asc - Urutkan by harga
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/3cae9898-eb21-403a-9fb1-c4e072c9efdd" />
 
-## Contributing
+GET /api/products?sort_by=download_count&order=desc - Lihat produk paling laris
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/6ad002c3-7c4b-4b9c-8c9a-a82fcdcd09ba" />
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Rating Classification
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/a3af924e-ddb8-4f6d-aed5-c73dc30ad275" />
 
-## Code of Conduct
+Struktur Response API
+Success Response
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/342562f2-ef06-4cfa-b04e-e826dd200bd3" />
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Error Response (Validation)
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/fc9529d3-9497-410c-a091-2228248dbbce" />
 
-## Security Vulnerabilities
+Not Found Response (404)
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/ea069410-9dbe-4c37-aa84-c2e86e012957" />
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Unauthorized Response (403)
+<img width="940" height="556" alt="image" src="https://github.com/user-attachments/assets/7518d378-fb02-43b8-857f-1547bb1beb24" />
