@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -40,5 +42,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => 'Validasi Gagal',
                 'errors' => $e->errors()
             ], 422);
+        });
+
+        $exceptions->renderable(function (AuthenticationException $e, Request $request){
+            if($request->is('api/*')){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Silakan login terlebih dahulu',
+                ], 401);
+            }
         });
     })->create();
