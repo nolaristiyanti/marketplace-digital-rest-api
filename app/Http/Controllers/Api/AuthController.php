@@ -15,6 +15,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users', //tidak boleh duplicate di table users
             'password' => 'required|string|min:8|confirmed', //confirmed = harus ada field:password_confirmation
+            'role' => 'sometimes|in:buyer,seller',
         ], [
             'name.required' => 'Nama wajib diisi',
             'email.unique' => 'Email sudah terdaftar',
@@ -26,6 +27,8 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']), //Password di-hash, tidak disimpan plaintext
+            'role' => $validated['role'] ?? 'buyer',
+            'balance' => 0,
         ]);
 
         //Generate Token (Sanctum) -> return object
@@ -84,5 +87,29 @@ class AuthController extends Controller
                 'token_type' => 'Bearer', //standar HTTP authentication -> Siapa pun yang membawa token ini = dianggap valid user (Tanpa password lagi)
             ]
         ], 201);
+    }
+
+    public function logout(Request $request): JsonResponse {
+        //1. $request->user() : Ambil user yang sedang login
+        // Background : dari header request Laravel (via Sanctum) ambil token -> cek ke database -> kalau valid Laravel tahu itu milik user siapa -> inject ke $request->user()
+        //2. currentAccessToken() : Ambil token yang sedang dipakai dari header request tsb
+        //3. delete() : Hapus token itu dari database
+        $request->user()->currentAccessToken()->delete(); // hapus semua token user
+
+        //hapus token tertentu
+        //$request->user()->where('id', $tokenId)->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logout Berhasil'
+        ]);
+    }
+
+    public function me(Request $request): JsonResponse {
+        return response()->json([
+            'success' => true,
+            'message' => 'data user',
+            'data' => $request->user() //Ambil user yang sedang login
+        ]);
     }
 }
