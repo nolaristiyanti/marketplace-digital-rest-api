@@ -69,4 +69,10 @@ class Product extends Model
         }
         return $ratingClass;
     }
+
+    // relasi ke order_items
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

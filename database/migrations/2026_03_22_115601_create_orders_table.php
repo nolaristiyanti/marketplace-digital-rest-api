@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
+            $table->foreignId('user_id')->constrained('users')->onDelete('restrict'); // buyer
             $table->string('invoice_number')->unique();
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'paid', 'failed'])->default('pending');

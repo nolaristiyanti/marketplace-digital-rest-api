@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -272,5 +273,63 @@ class ProductController extends Controller
 
         // 3. Return response
         return $this->successResponse($data, 'Jumlah produk per seller');
+    }
+
+    public function transactionDetail(): JsonResponse
+    {
+        $data = DB::table('order_items')
+
+            // join ke orders
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+
+            // join ke users (buyer)
+            ->join('users', 'orders.user_id', '=', 'users.id')
+
+            // join ke products
+            ->join('products', 'order_items.product_id', '=', 'products.id')
+
+            // join ke categories
+            ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+
+            ->select(
+                'orders.id as order_id',
+                'orders.invoice_number',
+                'users.name as buyer_name',
+
+                'products.title as product_title',
+                'product_categories.name as category_name',
+
+                'order_items.quantity',
+                'order_items.price_at_purchase',
+
+                'orders.total_price',
+                'orders.status',
+                'orders.created_at'
+            )
+            ->get();
+            /**
+             * SELECT
+             *      orders.id AS order_id,
+             *      orders.invoice_number,
+             *      users.name AS buyer_name,
+             *      products.title AS product_title,
+             *      product_categories.name AS category_name,
+             *      order_items.quantity,
+             *      order_items.price_at_purchase,
+             *      orders.total_price,
+             *      orders.status,
+             *      orders.created_at
+             * FROM order_items
+             * JOIN orders
+             *      ON order_items.order_id = orders.id
+             * JOIN users
+             *      ON orders.user_id = users.id
+             * JOIN products
+             *      ON order_items.product_id = products.id
+             * JOIN product_categories
+             *      ON products.category_id = product_categories.id
+             */
+
+        return $this->successResponse($data, 'Detail transaksi berhasil diambil');
     }
 }

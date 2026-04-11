@@ -48,3 +48,4 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 
 Route::get('/sellers/product-count', [ProductController::class, 'productCountPerSeller']);
+Route::get('/transactions/detail', [ProductController::class, 'transactionDetail']);
