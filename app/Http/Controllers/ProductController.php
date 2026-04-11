@@ -35,19 +35,28 @@ class ProductController extends Controller
             $query->where('price', '<=', $request->max_price);
         }
 
+        // //sorting by rating
+        // $sortBy = $request->get('sort_by', 'rating');
+        // $query->orderBy($sortBy, $sortOrder);
+
+        // //sorting by price
+        // $sortBy = $request->get('sort_by', 'price');
+        // $query->orderBy($sortBy, $sortOrder);
+
+        // //sorting by download_count
+        // $sortBy = $request->get('sort_by', 'download_count');
+        // $query->orderBy($sortBy, $sortOrder);
+
+        $sortBy = $request->sort_by;
         $sortOrder = $request->order === 'asc' ? 'asc' : 'desc';
 
-        //sorting by rating
-        $sortBy = $request->get('sort_by', 'rating');
-        $query->orderBy($sortBy, $sortOrder);
+        $allowedSorts = ['rating', 'price', 'download_count'];
 
-        //sorting by price
-        $sortBy = $request->get('sort_by', 'price');
-        $query->orderBy($sortBy, $sortOrder);
-
-        //sorting by download_count
-        $sortBy = $request->get('sort_by', 'download_count');
-        $query->orderBy($sortBy, $sortOrder);
+        if (in_array($sortBy, $allowedSorts)) {
+            $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->orderBy('rating', 'desc');
+        }
 
         $products = $query->get()->map(fn ($p) => [
             'id' => $p->id,
