@@ -140,22 +140,21 @@ class ProductController extends Controller
         return $this->successResponse($product, 'Produk berhasil ditambahkan');
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, Product $product): JsonResponse
     {
         // 1. validasi input
         $validated = $request->validate([
-            'seller_id' => 'required|exists:users,id',
+            // 'seller_id' => 'required|exists:users,id', // sudah pakai middleware -> EnsureSeller.php
             'category_id' => 'required|exists:product_categories,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'rating' => 'required|numeric|min:0|max:10',
-            'category_id' => 'required|exists:product_categories,id',
             'file_path' => 'required|string',
             'thumbnail' => 'nullable|string',
             'status' => 'in:active,inactive'
         ], [
-            'seller_id.required' => 'Id seller wajib diisi',
+            // 'seller_id.required' => 'Id seller wajib diisi', // sudah pakai middleware -> EnsureSeller.php
             'category_id.required' => 'Id kategori produk wajib diisi',
             'title.required' => 'Title produk wajib diisi',
             'description.required' => 'Deskripsi produk wajib diisi',
@@ -172,18 +171,26 @@ class ProductController extends Controller
         //     return $this->errorResponse('Hanya seller yang boleh update produk', 403);
         // }
 
+         // sudah pakai middleware -> EnsureProductOwner.php
         // 2. cari & update data
-        $product = Product::findOrFail($id);
+        // $product = Product::findOrFail($id);
+        // if ($product->seller_id !== $request->user()->id) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Anda tidak memiliki akses untuk mengubah data ini'
+        //     ], 403);
+        // }
         $product->update($validated);
 
         // 3. return response JSON
         return $this->successResponse($product, 'Produk berhasil diupdate');
     }
 
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Product $product): JsonResponse
     {
+        // digantikan oleh Route Model Binding
         // 1. cari data
-        $product = Product::findOrFail($id);
+        // $product = Product::findOrFail($id);
         $productName = $product->title;
 
         // sudah pakai middleware -> EnsureSeller.php

@@ -21,7 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'ensure.seller' => EnsureSeller::class,
+            'ensure.seller' => \App\Http\Middleware\EnsureSeller::class, // cek role = seller
+            'ensure.owner' => \App\Http\Middleware\EnsureProductOwner::class, // cek produk milik user
+            'ensure.admin' => \App\Http\Middleware\EnsureAdmin::class, // cek role = admin
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

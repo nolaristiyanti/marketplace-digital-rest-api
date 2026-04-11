@@ -40,7 +40,7 @@ class ProductCategoryController extends Controller
         return $this->successResponse($category, 'Kategori berhasil ditambahkan');
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, ProductCategory $category): JsonResponse
     {
         // 1. validasi input
         $validated = $request->validate([
@@ -51,18 +51,20 @@ class ProductCategoryController extends Controller
             'name.required' => 'Nama kategori wajib diisi',
         ]);
 
+        // digantikan oleh Route Model Binding
         // 2. cari & update data
-        $category = ProductCategory::findOrFail($id);
+        // $category = ProductCategory::findOrFail($id);
         $category->update($validated);
 
         // 3. return response JSON
         return $this->successResponse($category, 'Kategori berhasil diupdate');
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(ProductCategory $category): JsonResponse
     {
+        // digantikan oleh Route Model Binding
         // 1. cari & hapus data
-        $category = ProductCategory::findOrFail($id);
+        // $category = ProductCategory::findOrFail($id);
         $categoryName = $category->name;
 
         // 2. return response JSON
