@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponse;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -14,8 +15,9 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        //get data dengan filtering & sorting
+        // Base query
         $query = Product::query();
+        //SELECT * FROM products WHERE deleted_at IS NULL
 
         //filter by name (search)
         if($request->has('search')) {
@@ -55,30 +57,45 @@ class ProductController extends Controller
         if (in_array($sortBy, $allowedSorts)) {
             $query->orderBy($sortBy, $sortOrder);
         } else {
+            // default sorting
             $query->orderBy('rating', 'desc');
         }
 
-        $products = $query->get()->map(fn ($p) => [
-            'id' => $p->id,
-            'title' => $p->title,
-            'description' => $p->description,
-            'price' => $p->price,
-            'rating' => (float) $p->rating,
-            'thumbnail' => $p->thumbnail,
-            'file_path' => $p->file_path,
-            'download_count' => $p->download_count,
-            'status' => $p->status,
-             'category' => [
-                'id' => $p->category->id,
-                'name' => $p->category->name,
-            ],
-            'seller' => [
-                'id' => $p->seller->id,
-                'name' => $p->seller->name,
-            ],
-            'rating_class' => $p->rating_class,
-        ]);
+        // CACHE KEY
+        // key dibuat unik berdasarkan query param (search, filter, sort diatas)
+        $cacheKey = 'products_' . md5(json_encode($request->all()));
 
+        // AMBIL DATA DARI CACHE ATAU DATABASE
+        $products = Cache::remember($cacheKey, 60, function () use ($query) {
+            // eager loading untuk menghindari N+1 query
+            return $query->with(['category', 'seller'])->get();
+        });
+
+        // TRANSFORM DATA (map untuk format response)
+        $products = $products->map(function ($p) {
+            return [
+                'id' => $p->id,
+                'title' => $p->title,
+                'description' => $p->description,
+                'price' => $p->price,
+                'rating' => (float) $p->rating,
+                'thumbnail' => $p->thumbnail,
+                'file_path' => $p->file_path,
+                'download_count' => $p->download_count,
+                'status' => $p->status,
+                'category' => [
+                    'id' => $p->category->id,
+                    'name' => $p->category->name,
+                ],
+                'seller' => [
+                    'id' => $p->seller->id,
+                    'name' => $p->seller->name,
+                ],
+                'rating_class' => $p->rating_class,
+            ];
+        });
+
+        // RESPONSE
         return $this->successResponse($products,'Data produk berhasil diambil');
     }
 
@@ -145,6 +162,8 @@ class ProductController extends Controller
             'seller_id' => $request->user()->id
         ]);
 
+        Cache::flush(); // hapus semua cache products
+
         // 4. return response JSON
         return $this->successResponse($product, 'Produk berhasil ditambahkan');
     }
@@ -191,6 +210,8 @@ class ProductController extends Controller
         // }
         $product->update($validated);
 
+        Cache::flush(); // reset cache karena data berubah
+
         // 3. return response JSON
         return $this->successResponse($product, 'Produk berhasil diupdate');
     }
@@ -214,10 +235,42 @@ class ProductController extends Controller
         // 3. error handling, delete data & return response JSON
         try {
             $product->delete();
+            Cache::flush(); // reset cache
         } catch (\Exception $e) {
             //Conflict -> konflik dengan state data
             return $this->errorResponse('Gagal menghapus produk', 409);
         }
         return $this->successResponse(null, "Produk '$productName' berhasil dihapus");
+    }
+
+    public function productCountPerSeller(): JsonResponse
+    {
+        // 1. Ambil hanya user dengan role seller
+        $users = User::where('role', 'seller')
+            ->withCount('products') // hitung jumlah produk per seller
+            ->get();
+        /**
+         * SELECT users.*,
+         * (
+         *      SELECT COUNT(*)
+         *      FROM products
+         *      WHERE products.seller_id = users.id
+         *      AND products.deleted_at IS NULL
+         * ) as products_count
+         * FROM users
+         * WHERE role = 'seller';
+         */
+
+        // 2. Format response
+        $data = $users->map(function ($user) {
+            return [
+                'seller_id' => $user->id,
+                'seller_name' => $user->name,
+                'total_products' => $user->products_count
+            ];
+        });
+
+        // 3. Return response
+        return $this->successResponse($data, 'Jumlah produk per seller');
     }
 }
