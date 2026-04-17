@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponse;
+use App\Http\Requests\StoreProductCategoryRequest;
 
 class ProductCategoryController extends Controller
 {
@@ -22,22 +23,16 @@ class ProductCategoryController extends Controller
         return $this->successResponse($category, 'Detail kategori berhasil diambil');
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreProductCategoryRequest $request): JsonResponse
     {
-        // 1. validasi input
-        $validated = $request->validate([
-            'name' => 'required|string|max:100|unique:product_categories,name',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string'
-        ], [
-            'name.required' => 'Nama kategori wajib diisi',
-        ]);
+        // 1. ambil data valid
+        $validated = $request->validated();
 
-        // 2. simpan data ke database
+        // 2. simpan ke database
         $category = ProductCategory::create($validated);
 
-        // 3. return response JSON
-        return $this->successResponse($category, 'Kategori berhasil ditambahkan');
+        // 3. return response
+        return $this->successResponse($category, 'Kategori berhasil ditambahkan', 201);
     }
 
     public function update(Request $request, ProductCategory $category): JsonResponse
