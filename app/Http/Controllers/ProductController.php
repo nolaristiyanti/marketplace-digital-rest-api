@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -125,48 +126,16 @@ class ProductController extends Controller
         return $this->successResponse($mappedProduct, 'Detail produk berhasil diambil');
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreProductRequest $request): JsonResponse
     {
-        // 1. validasi input
-        $validated = $request->validate([
-            // 'seller_id' => 'required|exists:users,id', // sudah pakai middleware -> EnsureSeller.php
-            'category_id' => 'required|exists:product_categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'rating' => 'required|numeric|min:0|max:10',
-            'file_path' => 'required|string',
-            'thumbnail' => 'nullable|string',
-            'status' => 'in:active,inactive'
-        ], [
-            // 'seller_id.required' => 'Id seller wajib diisi', // sudah pakai middleware -> EnsureSeller.php
-            'category_id.required' => 'Id kategori produk wajib diisi',
-            'title.required' => 'Title produk wajib diisi',
-            'description.required' => 'Deskripsi produk wajib diisi',
-            'price.required' => 'Harga produk wajib diisi',
-            'rating.required' => 'Rating produk wajib diisi',
-            'file_path.required' => 'Path file produk wajib diisi',
-        ]);
-
-        // sudah pakai middleware -> EnsureSeller.php
-        // 2. Validasi user
-        // $user = User::findOrFail($validated['seller_id']);
-        // if ($user->role !== 'seller') {
-        //     //Forbidden -> tidak punya hak akses
-        //     return $this->errorResponse('Hanya seller yang boleh menambahkan produk', 403);
-        // }
-
-        // 3. simpan data ke database
-        // $category = Product::create($validated);
         $product = Product::create([
-            ...$validated,
+            ...$request->validated(),
             'seller_id' => $request->user()->id
         ]);
 
         Cache::flush(); // hapus semua cache products
 
-        // 4. return response JSON
-        return $this->successResponse($product, 'Produk berhasil ditambahkan');
+        return $this->successResponse($product, 'Produk berhasil ditambahkan', 201);
     }
 
     public function update(Request $request, Product $product): JsonResponse
