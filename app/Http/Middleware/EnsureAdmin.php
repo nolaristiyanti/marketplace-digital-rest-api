@@ -17,7 +17,7 @@ class EnsureAdmin
     {
         if (!$request->user() || $request->user()->role !== 'admin') {
             return response()->json([
-                'success' => false,
+                'status' => 'error',
                 'message' => 'Hanya admin yang boleh mengakses fitur ini'
             ], 403);
         }

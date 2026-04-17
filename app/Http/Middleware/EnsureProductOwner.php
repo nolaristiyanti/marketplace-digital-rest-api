@@ -21,8 +21,8 @@ class EnsureProductOwner
 
         if (!$product) {
             return response()->json([
-                'success' => false,
-                'message' => 'Data tidak ditemukaNn'
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan'
             ], 404);
         }
 

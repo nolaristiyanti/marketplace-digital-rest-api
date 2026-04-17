@@ -77,7 +77,7 @@ class UpdateProductRequest extends FormRequest
     {
         // default Laravel saat validasi gagal. custom format response error
         throw new HttpResponseException(response()->json([
-            'status' => false,
+            'status' => 'error',
             'message' => 'Validasi gagal',
             'errors' => $validator->errors(),
         ], 400));

@@ -30,31 +30,38 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e): JsonResponse {
             if ($e->getPrevious() instanceof ModelNotFoundException) {
                 return response()->json([
-                    'success' => false,
+                    'status' => 'error',
                     'message' => 'Data tidak ditemukan'
                 ], 404);
             }
 
             return response()->json([
-                'success' => false,
-                'message' => 'Route Tidak Ditemukan'
+                'status' => 'error',
+                'message' => 'Route tidak ditemukan'
             ], 404);
         });
 
         $exceptions->render(function (ValidationException $e): JsonResponse {
             return response()->json([
-                'success' => false,
-                'message' => 'Validasi Gagal',
+                'status' => 'error',
+                'message' => 'Validasi gagal',
                 'errors' => $e->errors()
-            ], 422);
+            ], 400);
         });
 
         $exceptions->renderable(function (AuthenticationException $e, Request $request){
             if($request->is('api/*')){
                 return response()->json([
-                    'success' => false,
+                    'status' => 'error',
                     'message' => 'Silakan login terlebih dahulu',
                 ], 401);
             }
+        });
+
+        $exceptions->render(function (\Throwable $e): JsonResponse {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan pada server'
+            ], 500);
         });
     })->create();

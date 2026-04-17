@@ -17,7 +17,7 @@ class EnsureSeller
     {
         if (!$request->user() || $request->user()->role !== 'seller') {
             return response()->json([
-                'success' => false,
+                'status' => 'error',
                 'message' => 'Hanya seller yang boleh mengakses fitur ini'
             ], 403);
         }
