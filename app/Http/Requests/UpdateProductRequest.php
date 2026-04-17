@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,14 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:product_categories,id',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'rating' => 'required|numeric|min:0|max:10',
-            'file_path' => 'required|string',
-            'thumbnail' => 'nullable|string',
-            'status' => 'nullable|in:active,inactive'
+            'category_id' => 'sometimes|required|integer|exists:product_categories,id',
+            'title' => 'sometimes|required|string|max:255',
+            'description' => 'sometimes|required|string|max:255',
+            'price' => 'sometimes|required|numeric|min:0',
+            'rating' => 'sometimes|required|numeric|min:0|max:10',
+            'file_path' => 'sometimes|required|string|max:255',
+            'thumbnail' => 'sometimes|nullable|string|max:255',
+            'status' => 'sometimes|nullable|string|in:active,inactive',
         ];
     }
 
@@ -53,7 +53,7 @@ class StoreProductRequest extends FormRequest
 
             // price
             'price.required' => 'Harga produk wajib diisi',
-            // 'price.numeric' => 'Harga harus berupa angka', // untuk belajar : ini akan di handle di exception bootstrap/app.php
+            'price.numeric' => 'Harga harus berupa angka', // untuk belajar : ini akan di handle di exception bootstrap/app.php
             'price.min' => 'Harga tidak boleh kurang dari 0',
 
             // rating

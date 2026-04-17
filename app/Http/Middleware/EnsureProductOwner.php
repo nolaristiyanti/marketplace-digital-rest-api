@@ -16,14 +16,13 @@ class EnsureProductOwner
      */
     public function handle(Request $request, Closure $next)
     {
-        $productId = $request->route('id'); // ambil dari URL
-
-        $product = Product::find($productId);
+        // ambil dari route model binding
+        $product = $request->route('product');
 
         if (!$product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Data tidak ditemukan'
+                'message' => 'Data tidak ditemukaNn'
             ], 404);
         }
 
