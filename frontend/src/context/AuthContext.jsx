@@ -117,9 +117,15 @@ export function AuthProvider({ children }) {
         }
 
         const data = await response.json();
-        saveToken(data.token);
-        setUser(data.user);
-        setAuthForm(defaulAuthForm);
+        const token = data.data?.token;
+        const user = data.data?.user;
+
+        if (!token) {
+        throw new Error("Token tidak ditemukan di response");
+        }
+
+        saveToken(token);
+        setUser(user);
       } catch (err) {
         console.error("Authentication error:", err);
         setAuthError(err.message);
