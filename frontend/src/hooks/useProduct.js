@@ -2,16 +2,19 @@ import { useCallback, useEffect, useState } from 'react'
 import useFetch from './useFetch'
 
 const defaultForm = {
-  name: '',
+  title: '',
   description: '',
   price: '',
-  stock: '',
+  category_id: '',
+  rating: '0',
+  file_path: '',
+  stock: '0',
 }
 
 const unauthorizedMessage = 'Silakan login dulu untuk mengelola produk.'
 
 export default function useProducts({ isAuthenticated, getAuthHeaders }) {
-  const { data: products, execute, loading } = useFetch([])
+  const { data: products, execute, loading, setData } = useFetch([])
   const [form, setForm] = useState(defaultForm)
   const [editingId, setEditingId] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -21,13 +24,14 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
     setProductError('')
 
     try {
-      await execute('/api/products', {
+      const result = await execute('/api/products', {
         errorMessage: 'Gagal mengambil data produk.',
       })
+      setData(Array.isArray(result?.data) ? result.data : [])
     } catch (err) {
       setProductError(err.message)
     }
-  }, [execute])
+  }, [execute, setData])
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -50,10 +54,13 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
   const startEdit = useCallback((product) => {
     setEditingId(product.id)
     setForm({
-      name: product.name,
+      title: product.title ?? '',
       description: product.description ?? '',
       price: String(product.price),
-      stock: String(product.stock),
+      category_id: String(product.category?.id ?? ''),
+      rating: String(product.rating ?? 0),
+      file_path: product.file_path ?? '',
+      stock: String(product.stock ?? 0),
     })
   }, [])
 
@@ -70,9 +77,12 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
       }
 
       const payload = {
-        name: form.name,
-        description: form.description || null,
+        title: form.title,
+        description: form.description,
         price: Number(form.price),
+        category_id: Number(form.category_id),
+        rating: Number(form.rating),
+        file_path: form.file_path,
         stock: Number(form.stock),
       }
 
@@ -102,7 +112,7 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
         setSubmitting(false)
       }
     },
-    [editingId, form.description, form.name, form.price, form.stock, getAuthHeaders, isAuthenticated, loadProducts, resetForm],
+    [editingId, form.category_id, form.description, form.file_path, form.price, form.rating, form.stock, form.title, getAuthHeaders, isAuthenticated, loadProducts, resetForm],
   )
 
   const handleDelete = useCallback(

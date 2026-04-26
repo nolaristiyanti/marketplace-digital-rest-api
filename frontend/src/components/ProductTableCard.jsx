@@ -34,7 +34,7 @@ function ProductFormCard({
                             {products.map(product => (
                                 <tr key={product.id}>
                                     <td>
-                                        <strong>{product.name}</strong>
+                                        <strong>{product.title}</strong>
                                         <span>{product.description || "-"}</span>
                                     </td>
                                     <td>Rp {Number(product.price).toLocaleString('id-ID')}</td>
