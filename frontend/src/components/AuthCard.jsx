@@ -18,7 +18,7 @@ function AuthCard({authMode, authForm, authSubmitting, error, onChange, onSubmit
             <label>
                 Email
                 <input 
-                    name="name"
+                    name="email"
                     type="email"
                     value={authForm.email}
                     onChange={onChange}

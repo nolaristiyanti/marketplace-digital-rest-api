@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      fetch("/api/me", {
+      fetch("/api/auth/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
       setAuthSubmitting(true);
       setAuthError("");
 
-      const url = authMode === "register" ? "/api/register" : "/api/login";
+      const url = authMode === "register" ? "/api/auth/register" : "/api/auth/login";
       const payload =
         authMode === "register"
           ? {
@@ -139,7 +139,7 @@ export function AuthProvider({ children }) {
 
   const handleLogout = useCallback(async () => {
     try {
-      await fetch("/api/logout", {
+      await fetch("/api/auth/logout", {
         method: "POST",
         headers: {
           Accept: "application/json",
