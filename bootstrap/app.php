@@ -25,6 +25,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'ensure.owner' => \App\Http\Middleware\EnsureProductOwner::class, // cek produk milik user
             'ensure.admin' => \App\Http\Middleware\EnsureAdmin::class, // cek role = admin
         ]);
+        $middleware->redirectGuestsTo(function ($request) {
+            if ($request->is('api/*')) {
+                return null;
+            }
+
+            return route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (NotFoundHttpException $e): JsonResponse {

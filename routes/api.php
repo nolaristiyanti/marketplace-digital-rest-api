@@ -5,12 +5,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 // WAJIB pakai token dan only admin can manage categories
 Route::middleware(['auth:sanctum', 'ensure.admin'])->group(function () {
     Route::post('/categories', [ProductCategoryController::class, 'store']);
     Route::put('/categories/{category}', [ProductCategoryController::class, 'update']);
     Route::delete('/categories/{category}', [ProductCategoryController::class, 'destroy']);
+
+    Route::get('/users', [UserController::class, 'index']);
 });
 
 // WAJIB pakai token dan only can be accessed by role : seller
