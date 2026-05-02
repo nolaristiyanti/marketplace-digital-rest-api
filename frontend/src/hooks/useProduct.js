@@ -20,11 +20,13 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
   const [submitting, setSubmitting] = useState(false)
   const [productError, setProductError] = useState('')
 
+  const BASE_URL = import.meta.env.VITE_API_URL;
+
   const loadProducts = useCallback(async () => {
     setProductError('')
 
     try {
-      const result = await execute('/api/products', {
+      const result = await execute(`${BASE_URL}/products`, {
         errorMessage: 'Gagal mengambil data produk.',
       })
       setData(Array.isArray(result?.data) ? result.data : [])
@@ -87,7 +89,7 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
       }
 
       try {
-        const url = editingId ? `/api/products/${editingId}` : '/api/products'
+        const url = editingId ? `${BASE_URL}/products/${editingId}` : `${BASE_URL}/products`
         const method = editingId ? 'PUT' : 'POST'
 
         const response = await fetch(url, {
@@ -129,7 +131,7 @@ export default function useProducts({ isAuthenticated, getAuthHeaders }) {
       setProductError('')
 
       try {
-        const response = await fetch(`/api/products/${id}`, {
+        const response = await fetch(`${BASE_URL}/products/${id}`, {
           method: 'DELETE',
           headers: {
             Accept: 'application/json',
