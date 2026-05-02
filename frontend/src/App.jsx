@@ -12,7 +12,7 @@ function App() {
 return (
   <main className='container'>
     <section className='header-card'>
-      <p className='label'>FE + BE</p>
+      <p className='label'>Digital Marketplace</p>
       <h1>Manajemen Produk</h1>
       <p className='subtext'>CRUD API</p>
 
