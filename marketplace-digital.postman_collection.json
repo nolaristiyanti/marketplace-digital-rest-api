@@ -1,0 +1,1134 @@
+{
+  "info": {
+    "_postman_id": "298cb9d6-f416-41dc-b9bc-fa28df08c1bd",
+    "name": "marketplace-digital",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32626090"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "PROD",
+          "item": [
+            {
+              "name": "login PROD",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if(pm.response.code == 201) {\r",
+                      "    var jsonData = pm.response.json();\r",
+                      "    pm.environment.set(\"token\", jsonData.data.token)\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"siti.seller@dummy.test\",\r\n    \"password\": \"password\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"admin@mail.com\",\r\n//   \"password\": \"password123\"\r\n// }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "register PROD",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"name\": \"Budi Santoso\",\r\n//   \"email\": \"budi.santoso@dummy.test\",\r\n//   \"password\": \"password\",\r\n//   \"password_confirmation\": \"password\",\r\n//   \"role\": \"buyer\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Siti Penjual\",\r\n//   \"email\": \"siti.seller@dummy.test\",\r\n//   \"password\": \"password\",\r\n//   \"password_confirmation\": \"password\",\r\n//   \"role\": \"seller\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Andi\",\r\n//   \"email\": \"andi.default@dummy.test\",\r\n//   \"password\": \"12345678\",\r\n//   \"password_confirmation\": \"12345678\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Rina Wijaya\",\r\n//   \"email\": \"rina.wijaya@dummy.test\",\r\n//   \"password\": \"minimal8\",\r\n//   \"password_confirmation\": \"minimal8\",\r\n//   \"role\": \"seller\"\r\n// }\r\n\r\n\r\n// {\r\n//   \"name\": \"Eko\",\r\n//   \"email\": \"eko.buyer@dummy.test\",\r\n//   \"password\": \"password123\",\r\n//   \"password_confirmation\": \"password123\",\r\n//   \"role\": \"buyer\"\r\n// }\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "me PROD",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"sellerC@gmail.com\",\r\n    \"password\": \"password123\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/me",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "logout PROD",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if(pm.response.code == 200) {\r",
+                      "    pm.environment.set(\"token\", \"\")\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DEV",
+          "item": [
+            {
+              "name": "login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if(pm.response.code == 201) {\r",
+                      "    var jsonData = pm.response.json();\r",
+                      "    pm.environment.set(\"token\", jsonData.data.token)\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"siti.seller@dummy.test\",\r\n    \"password\": \"password\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"admin@mail.com\",\r\n//   \"password\": \"password123\"\r\n// }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "me",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"sellerC@gmail.com\",\r\n    \"password\": \"password123\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/me",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "logout",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if(pm.response.code == 200) {\r",
+                      "    pm.environment.set(\"token\", \"\")\r",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "register",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"name\": \"Budi Santoso\",\r\n//   \"email\": \"budi.santoso@dummy.test\",\r\n//   \"password\": \"password\",\r\n//   \"password_confirmation\": \"password\",\r\n//   \"role\": \"buyer\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Siti Penjual\",\r\n//   \"email\": \"siti.seller@dummy.test\",\r\n//   \"password\": \"password\",\r\n//   \"password_confirmation\": \"password\",\r\n//   \"role\": \"seller\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Andi\",\r\n//   \"email\": \"andi.default@dummy.test\",\r\n//   \"password\": \"12345678\",\r\n//   \"password_confirmation\": \"12345678\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Rina Wijaya\",\r\n//   \"email\": \"rina.wijaya@dummy.test\",\r\n//   \"password\": \"minimal8\",\r\n//   \"password_confirmation\": \"minimal8\",\r\n//   \"role\": \"seller\"\r\n// }\r\n\r\n\r\n// {\r\n//   \"name\": \"Eko\",\r\n//   \"email\": \"eko.buyer@dummy.test\",\r\n//   \"password\": \"password123\",\r\n//   \"password_confirmation\": \"password123\",\r\n//   \"role\": \"buyer\"\r\n// }\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "PROD",
+          "item": [
+            {
+              "name": "GET products PROD",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Products PROD",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"category_id\": 1,\r\n//   \"title\": \"Paket ikon SVG flat\",\r\n//   \"description\": \"Koleksi ikon SVG siap pakai untuk UI.\",\r\n//   \"price\": 79000,\r\n//   \"rating\": 8.8,\r\n//   \"file_path\": \"storage/products/sample-icons.zip\",\r\n//   \"thumbnail\": \"storage/thumbnails/icons.png\",\r\n//   \"status\": \"active\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 1,\r\n//   \"title\": \"Lo-fi beat pack Vol 1\",\r\n//   \"description\": \"Sepuluh lagu WAV royalty-free untuk konten.\",\r\n//   \"price\": 150000,\r\n//   \"rating\": 7.5,\r\n//   \"file_path\": \"storage/products/lofi-vol1.zip\",\r\n//   \"status\": \"active\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 2,\r\n//   \"title\": \"Font Sans Pro Bundle\",\r\n//   \"description\": \"Tiga keluarga font OTF untuk branding.\",\r\n//   \"price\": 250000,\r\n//   \"rating\": 9.2,\r\n//   \"file_path\": \"storage/products/fonts-bundle.zip\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 3,\r\n//   \"title\": \"Template Notion CRM\",\r\n//   \"description\": \"Duplikasi sekali pakai untuk tim kecil.\",\r\n//   \"price\": 0,\r\n//   \"rating\": 0,\r\n//   \"file_path\": \"downloads/notion-crm-bundle.zip\",\r\n//   \"thumbnail\": null,\r\n//   \"status\": \"inactive\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 4,\r\n//   \"title\": \"Plugin helper\",\r\n//   \"description\": \"Otomasi tugas rutin pada workflow harian Anda.\",\r\n//   \"price\": 99000,\r\n//   \"rating\": 10,\r\n//   \"file_path\": \"plugins/wp-helper.zip\",\r\n//   \"thumbnail\": \"img/wp-helper-cover.png\",\r\n//   \"status\": \"active\"\r\n// }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT Copy",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//     \"seller_id\": 6,\r\n//     \"category_id\": 1,\r\n//     \"title\": \"Laravel REST API Starter Kit NEW 1\",\r\n//     \"description\": \"Starter kit lengkap untuk membangun REST API menggunakan Laravel, termasuk authentication, role management, dan best practices.\",\r\n//     \"price\": 149000,\r\n//     \"rating\": 4.8,\r\n//     \"file_path\": \"products/laravel-rest-api-starter.zip\"\r\n// }\r\n\r\n//update\r\n// {\r\n//   \"title\": \"Updated Title\"\r\n// }\r\n\r\n// {\r\n//   \"title\": \"\"\r\n// }\r\n\r\n// {\r\n//   \"price\": \"abc\"\r\n// }\r\n\r\n// {\r\n//   \"price\": -100,\r\n//   \"rating\": 11\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 999\r\n// }\r\n\r\n// {\r\n//   \"status\": \"random\"\r\n// }\r\n\r\n{\r\n  \"thumbnail\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/products/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "999"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Copy",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/products/8",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "8"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET aggregation Copy",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}sellers/product-count",
+                  "host": [
+                    "{{base_url}}sellers"
+                  ],
+                  "path": [
+                    "product-count"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET join table Copy",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/transactions/detail",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "transactions",
+                    "detail"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DEV",
+          "item": [
+            {
+              "name": "GET products",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST products",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"category_id\": 1,\r\n//   \"title\": \"Paket ikon SVG flat\",\r\n//   \"description\": \"Koleksi ikon SVG siap pakai untuk UI.\",\r\n//   \"price\": 79000,\r\n//   \"rating\": 8.8,\r\n//   \"file_path\": \"storage/products/sample-icons.zip\",\r\n//   \"thumbnail\": \"storage/thumbnails/icons.png\",\r\n//   \"status\": \"active\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 1,\r\n//   \"title\": \"Lo-fi beat pack Vol 1\",\r\n//   \"description\": \"Sepuluh lagu WAV royalty-free untuk konten.\",\r\n//   \"price\": 150000,\r\n//   \"rating\": 7.5,\r\n//   \"file_path\": \"storage/products/lofi-vol1.zip\",\r\n//   \"status\": \"active\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 2,\r\n//   \"title\": \"Font Sans Pro Bundle\",\r\n//   \"description\": \"Tiga keluarga font OTF untuk branding.\",\r\n//   \"price\": 250000,\r\n//   \"rating\": 9.2,\r\n//   \"file_path\": \"storage/products/fonts-bundle.zip\"\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 3,\r\n//   \"title\": \"Template Notion CRM\",\r\n//   \"description\": \"Duplikasi sekali pakai untuk tim kecil.\",\r\n//   \"price\": 0,\r\n//   \"rating\": 0,\r\n//   \"file_path\": \"downloads/notion-crm-bundle.zip\",\r\n//   \"thumbnail\": null,\r\n//   \"status\": \"inactive\"\r\n// }\r\n\r\n{\r\n  \"category_id\": 4,\r\n  \"title\": \"Plugin helper\",\r\n  \"description\": \"Otomasi tugas rutin pada workflow harian Anda.\",\r\n  \"price\": 99000,\r\n  \"rating\": 10,\r\n  \"file_path\": \"plugins/wp-helper.zip\",\r\n  \"thumbnail\": \"img/wp-helper-cover.png\",\r\n  \"status\": \"active\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT products",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//     \"seller_id\": 6,\r\n//     \"category_id\": 1,\r\n//     \"title\": \"Laravel REST API Starter Kit NEW 1\",\r\n//     \"description\": \"Starter kit lengkap untuk membangun REST API menggunakan Laravel, termasuk authentication, role management, dan best practices.\",\r\n//     \"price\": 149000,\r\n//     \"rating\": 4.8,\r\n//     \"file_path\": \"products/laravel-rest-api-starter.zip\"\r\n// }\r\n\r\n//update\r\n// {\r\n//   \"title\": \"Updated Title\"\r\n// }\r\n\r\n// {\r\n//   \"title\": \"\"\r\n// }\r\n\r\n// {\r\n//   \"price\": \"abc\"\r\n// }\r\n\r\n// {\r\n//   \"price\": -100,\r\n//   \"rating\": 11\r\n// }\r\n\r\n// {\r\n//   \"category_id\": 999\r\n// }\r\n\r\n// {\r\n//   \"status\": \"random\"\r\n// }\r\n\r\n{\r\n  \"thumbnail\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/products/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "999"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/products/8",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "products",
+                    "8"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET aggregation",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/sellers/product-count",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "sellers",
+                    "product-count"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET join table",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/transactions/detail",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "transactions",
+                    "detail"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "PROD",
+          "item": [
+            {
+              "name": "GET categories PROD",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST categories PROD",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"name\": \"Digital Art\",\r\n//   \"description\": \"Assets visual untuk desain.\",\r\n//   \"icon\": \"palette-outline\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Music & SFX\",\r\n//   \"description\": null,\r\n//   \"icon\": null\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Fonts\",\r\n//   \"description\": \"Font lisensi komersial dan personal use.\",\r\n//   \"icon\": \"type\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Templates\",\r\n//   \"description\": \"\",\r\n//   \"icon\": \"layers\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Plugins\",\r\n//   \"description\": \"Ekstensi dan plugin pembantu workflow.\",\r\n//   \"icon\": \"puzzle-piece\"\r\n// }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT categories PROD",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//     \"name\": \"Ebook PDF\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Backend Engineering\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"\"\r\n// }\r\n\r\n// {\r\n//   \"name\": 123\r\n// }\r\n\r\n// {\r\n//   \"name\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Mobile Development\"\r\n// }\r\n\r\n// {\r\n//   \"description\": \"Update deskripsi baru\"\r\n// }\r\n\r\n{\r\n  \"icon\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "999"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE categories PROD",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Ebook\",\r\n    \"description\": \"Digital books for learning.\",\r\n    \"icon\": \"ebook.png\"\r\n  }"
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DEV",
+          "item": [
+            {
+              "name": "GET categories",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST categories",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//   \"name\": \"Digital Art\",\r\n//   \"description\": \"Assets visual untuk desain.\",\r\n//   \"icon\": \"palette-outline\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Music & SFX\",\r\n//   \"description\": null,\r\n//   \"icon\": null\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Fonts\",\r\n//   \"description\": \"Font lisensi komersial dan personal use.\",\r\n//   \"icon\": \"type\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Templates\",\r\n//   \"description\": \"\",\r\n//   \"icon\": \"layers\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Plugins\",\r\n//   \"description\": \"Ekstensi dan plugin pembantu workflow.\",\r\n//   \"icon\": \"puzzle-piece\"\r\n// }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PUT categories",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// {\r\n//     \"name\": \"Ebook PDF\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Backend Engineering\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"\"\r\n// }\r\n\r\n// {\r\n//   \"name\": 123\r\n// }\r\n\r\n// {\r\n//   \"name\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\r\n// }\r\n\r\n// {\r\n//   \"name\": \"Mobile Development\"\r\n// }\r\n\r\n// {\r\n//   \"description\": \"Update deskripsi baru\"\r\n// }\r\n\r\n{\r\n  \"icon\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/999",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "999"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE categories",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Ebook\",\r\n    \"description\": \"Digital books for learning.\",\r\n    \"icon\": \"ebook.png\"\r\n  }"
+                },
+                "url": {
+                  "raw": "{{base_url}}/categories/2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "categories",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "PROD",
+          "item": [
+            {
+              "name": "GET users PROD",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "DEV",
+          "item": [
+            {
+              "name": "GET users",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
