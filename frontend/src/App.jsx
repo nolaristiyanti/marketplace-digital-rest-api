@@ -14,7 +14,6 @@ return (
     <section className='header-card'>
       <p className='label'>Digital Marketplace</p>
       <h1>Manajemen Produk</h1>
-      <p className='subtext'>CRUD API</p>
 
       <div className='auth-summary'>
         {user ? (
