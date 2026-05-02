@@ -65,10 +65,13 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (\Throwable $e): JsonResponse {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Terjadi kesalahan pada server'
-            ], 500);
+        // $exceptions->render(function (\Throwable $e): JsonResponse {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Terjadi kesalahan pada server'
+        //     ], 500);
+        // });
+        $exceptions->render(function (\Throwable $e) {
+            return null;
         });
     })->create();
