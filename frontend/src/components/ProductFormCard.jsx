@@ -83,13 +83,13 @@ function ProductFormCard({
       </label> */}
 
       <label>
-        File Path
+        URL File Produk
         <input
           name="file_path"
           value={form.file_path}
           onChange={onChange}
           required
-          placeholder="Contoh: files/dashboard-ui-kit.zip"
+          placeholder="Contoh: https://images.unsplash.com/photo-<ID>"
           disabled={!canManage}
         />
       </label>
