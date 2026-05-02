@@ -19,7 +19,7 @@ function ProductFormCard({
           value={form.title}
           onChange={onChange}
           required
-          placeholder="Contoh: Keyboard Mechanical"
+          placeholder="Contoh: UI Kit Dashboard"
           disabled={!canManage}
         />
       </label>
@@ -66,7 +66,7 @@ function ProductFormCard({
         />
       </label>
 
-      <label>
+      {/* <label>
         Rating
         <input
           name="rating"
@@ -80,7 +80,7 @@ function ProductFormCard({
           placeholder="0 - 10"
           disabled={!canManage}
         />
-      </label>
+      </label> */}
 
       <label>
         File Path
