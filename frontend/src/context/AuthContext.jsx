@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import AuthContext from "./AuthContextValue";
 
 const tokenKey = "auth_token";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const defaulAuthForm = {
   name: "",
@@ -47,7 +48,7 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      fetch("/api/auth/me", {
+      fetch(`${BASE_URL}/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -89,7 +90,7 @@ export function AuthProvider({ children }) {
       setAuthSubmitting(true);
       setAuthError("");
 
-      const url = authMode === "register" ? "/api/auth/register" : "/api/auth/login";
+      const url = authMode === "register" ? `${BASE_URL}/auth/register` : `${BASE_URL}/auth/login`;
       const payload =
         authMode === "register"
           ? {
@@ -145,7 +146,7 @@ export function AuthProvider({ children }) {
 
   const handleLogout = useCallback(async () => {
     try {
-      await fetch("/api/auth/logout", {
+      await fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
         headers: {
           Accept: "application/json",
