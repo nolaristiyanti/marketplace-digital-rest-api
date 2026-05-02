@@ -1,7 +1,7 @@
 function AuthCard({authMode, authForm, authSubmitting, error, onChange, onSubmit, onToggleMode}) {
     return (
         <form className="form-card" onSubmit={onSubmit}>
-            <h2>{authMode === 'login' ? 'Login Admin' : 'Register Admin'}</h2>
+            <h2>{authMode === 'login' ? 'Login Seller' : 'Register Seller'}</h2>
 
             {authMode === 'register' && (
                 <label>

@@ -12,7 +12,7 @@ function App() {
 return (
   <main className='container'>
     <section className='header-card'>
-      <p className='label'>Digital Marketplace</p>
+      <p className='label'>Dashboard Seller</p>
       <h1>Manajemen Produk</h1>
 
       <div className='auth-summary'>
